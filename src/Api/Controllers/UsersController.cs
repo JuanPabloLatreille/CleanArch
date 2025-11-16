@@ -1,4 +1,6 @@
-﻿using Application.Users.CreateUser;
+﻿using Application.Products.DeleteProduct;
+using Application.Users.CreateUser;
+using Application.Users.DeleteUser;
 using Application.Users.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -44,5 +46,19 @@ public class UsersController : ControllerBase
             return NotFound(result.Error);
 
         return Ok(result.Value);
+    }
+
+    [HttpDelete("{id:guid}", Name = nameof(DeleteUserAsync))]
+    public async Task<IActionResult> DeleteUserAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteUserCommand(id);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return NotFound(result.Error);
+
+        return NoContent();
     }
 }
