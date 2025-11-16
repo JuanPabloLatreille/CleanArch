@@ -24,12 +24,10 @@ public sealed class Product
     public static Result<Product> Create(string name, string? description)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<Product>(
-                new Error("Product.Name.Empty", "O nome do produto é obrigatório"));
+            return Result.Failure<Product>(ProductErrors.NameEmpty);
 
         if (name.Length > 200)
-            return Result.Failure<Product>(
-                new Error("Product.Name.TooLong", "O nome não pode exceder 200 caracteres"));
+            return Result.Failure<Product>(ProductErrors.NameTooLong);
 
         var product = new Product(name, description);
         return Result.Success(product);
@@ -38,12 +36,10 @@ public sealed class Product
     public Result Update(string name, string? description)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(
-                new Error("Product.Name.Empty", "O nome do produto é obrigatório"));
+            return Result.Failure(ProductErrors.NameEmpty);
 
         if (name.Length > 200)
-            return Result.Failure(
-                new Error("Product.Name.TooLong", "O nome não pode exceder 200 caracteres"));
+            return Result.Failure(ProductErrors.NameTooLong);
 
         Name = name;
         Description = description;

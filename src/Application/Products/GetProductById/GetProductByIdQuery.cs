@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Products;
+﻿using Domain.Entities.Products;
+using Domain.Interfaces.Products;
 using Domain.Shared;
 using MediatR;
 
@@ -23,10 +24,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, R
 
         if (product is null)
         {
-            return Result.Failure<GetProductByIdResult>(
-                new Error(
-                    "Product.NotFound",
-                    $"Produto com ID '{request.Id}' não foi encontrado"));
+            return Result.Failure<GetProductByIdResult>(ProductErrors.NotFound(request.Id));
         }
 
         return Result.Success(GetProductByIdResult.FromEntity(product));

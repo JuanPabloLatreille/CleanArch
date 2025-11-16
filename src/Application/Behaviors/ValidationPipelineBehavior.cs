@@ -32,7 +32,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
         var errors = validationResults
             .SelectMany(result => result.Errors)
             .Where(failure => failure != null)
-            .Select(failure => new Error(
+            .Select(failure => Error.Validation(
                 $"{failure.PropertyName}.{failure.ErrorCode}",
                 failure.ErrorMessage))
             .Distinct()

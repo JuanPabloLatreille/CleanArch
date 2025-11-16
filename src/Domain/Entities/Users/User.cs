@@ -25,7 +25,6 @@ public sealed class User
     public static Result<User> Create(string name, string email)
     {
         var emailResult = Email.Create(email);
-
         if (emailResult.IsFailure)
         {
             return Result.Failure<User>(emailResult.Error);
@@ -33,15 +32,18 @@ public sealed class User
 
         if (string.IsNullOrWhiteSpace(name))
         {
-            return Result.Failure<User>(new Error("User.Name.Empty", "Name cannot be empty"));
+            return Result.Failure<User>(UserErrors.NameEmpty);
         }
 
         if (name.Length > 100)
         {
-            return Result.Failure<User>(new Error("User.Name.TooLong", "Name cannot exceed 100 characters"));
+            return Result.Failure<User>(UserErrors.NameTooLong);
         }
 
-        var user = new User(new UserId(Guid.NewGuid()), name.Trim(), emailResult.Value);
+        var user = new User(
+            new UserId(Guid.NewGuid()),
+            name.Trim(),
+            emailResult.Value);
 
         return Result.Success(user);
     }

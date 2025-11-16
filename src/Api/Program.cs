@@ -1,3 +1,4 @@
+using Api.Extensions;
 using Application.DependencyInjection;
 using Infra.Extensions;
 
@@ -24,6 +25,7 @@ internal static class Program
         builder.Services.AddInfrastructure(builder.Configuration);
 
         var app = builder.Build();
+        app.UseExceptionHandling();
 
         if (app.Environment.IsDevelopment())
         {

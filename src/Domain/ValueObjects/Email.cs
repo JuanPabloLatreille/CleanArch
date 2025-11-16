@@ -20,17 +20,17 @@ public class Email
     {
         if (string.IsNullOrWhiteSpace(address))
         {
-            return Result.Failure<Email>(new Error("Email.Empty", "Email cannot be empty"));
+            return Result.Failure<Email>(EmailErrors.Empty);
         }
 
         if (address.Length > 255)
         {
-            return Result.Failure<Email>(new Error("Email.TooLong", "Email cannot exceed 255 characters"));
+            return Result.Failure<Email>(EmailErrors.TooLong);
         }
 
         if (!address.Contains('@'))
         {
-            return Result.Failure<Email>(new Error("Email.InvalidFormat", "Email must contain '@'"));
+            return Result.Failure<Email>(EmailErrors.InvalidFormat);
         }
 
         return Result.Success(new Email(address.ToLowerInvariant()));

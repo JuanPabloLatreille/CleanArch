@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Products;
+﻿using Domain.Entities.Products;
+using Domain.Interfaces.Products;
 using Domain.Interfaces.UnitOfWork;
 using Domain.Shared;
 using MediatR;
@@ -30,10 +31,7 @@ public class UpdateProductCommandHandler
 
         if (product is null)
         {
-            return Result.Failure<UpdateProductResult>(
-                new Error(
-                    "Product.NotFound",
-                    $"Produto com ID '{request.Id}' não foi encontrado"));
+            return Result.Failure<UpdateProductResult>(ProductErrors.NotFound(request.Id));
         }
 
         var updateResult = product.Update(request.Name, request.Description);

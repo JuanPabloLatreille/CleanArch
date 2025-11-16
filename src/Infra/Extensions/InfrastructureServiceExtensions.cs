@@ -1,8 +1,10 @@
 ﻿using Domain.Interfaces.Products;
 using Domain.Interfaces.UnitOfWork;
+using Domain.Interfaces.Users;
 using Infra.ApplicationDbContext;
 using Infra.Persistence;
 using Infra.Repositories.Products;
+using Infra.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +51,7 @@ public static class InfrastructureServiceExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

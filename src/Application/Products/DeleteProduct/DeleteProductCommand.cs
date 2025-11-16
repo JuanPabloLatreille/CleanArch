@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Products;
+﻿using Domain.Entities.Products;
+using Domain.Interfaces.Products;
 using Domain.Interfaces.UnitOfWork;
 using Domain.Shared;
 using MediatR;
@@ -29,10 +30,7 @@ public class DeleteProductCommandHandler
 
         if (product is null)
         {
-            return Result.Failure(
-                new Error(
-                    "Product.NotFound",
-                    $"Produto com ID '{request.Id}' não foi encontrado"));
+            return Result.Failure(ProductErrors.NotFound(request.Id));
         }
 
         _productRepository.Delete(product);
