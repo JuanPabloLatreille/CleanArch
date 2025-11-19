@@ -5,11 +5,12 @@ namespace Domain.Entities.Users;
 
 public sealed class User
 {
-    private User(UserId id, string name, Email email)
+    private User(UserId id, string name, Email email, Password password)
     {
         Id = id;
         Name = name;
         Email = email;
+        Password = password;
     }
 
     private User()
@@ -22,7 +23,9 @@ public sealed class User
 
     public Email Email { get; private set; }
 
-    public static Result<User> Create(string name, string email)
+    public Password Password { get; private set; }
+
+    public static Result<User> Create(string name, string email, string passwordHash)
     {
         var emailResult = Email.Create(email);
         if (emailResult.IsFailure)
@@ -40,10 +43,13 @@ public sealed class User
             return Result.Failure<User>(UserErrors.NameTooLong);
         }
 
+        var password = Password.FromHash(passwordHash);
+
         var user = new User(
             new UserId(Guid.NewGuid()),
             name.Trim(),
-            emailResult.Value);
+            emailResult.Value,
+            password);
 
         return Result.Success(user);
     }
