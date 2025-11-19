@@ -32,5 +32,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             emailBuilder.HasIndex(e => e.Address)
                 .IsUnique();
         });
+
+        builder.OwnsOne(x => x.Password, navigationBuilder =>
+        {
+            navigationBuilder.Property(x => x.Hash)
+                .HasColumnName("PasswordHash")
+                .HasMaxLength(512)
+                .IsRequired();
+        });
     }
 }

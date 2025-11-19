@@ -2,7 +2,7 @@
 
 namespace Domain.ValueObjects;
 
-public class Email
+public sealed class Email
 {
     private Email()
     {

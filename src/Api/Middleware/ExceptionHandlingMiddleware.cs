@@ -38,7 +38,6 @@ public sealed class ExceptionHandlingMiddleware
     {
         var problemDetails = new ProblemDetailsResponse
         {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
             Title = "Erro Interno do Servidor",
             Status = (int)HttpStatusCode.InternalServerError,
             Detail = exception.Message,

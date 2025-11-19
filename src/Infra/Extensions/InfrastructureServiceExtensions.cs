@@ -1,10 +1,12 @@
-﻿using Domain.Interfaces.Products;
+﻿using Domain.Interfaces.Passwords;
+using Domain.Interfaces.Products;
 using Domain.Interfaces.UnitOfWork;
 using Domain.Interfaces.Users;
 using Infra.ApplicationDbContext;
 using Infra.Persistence;
 using Infra.Repositories.Products;
 using Infra.Repositories.Users;
+using Infra.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +45,7 @@ public static class InfrastructureServiceExtensions
         );
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         return services;
     }
