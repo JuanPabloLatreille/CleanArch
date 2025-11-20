@@ -3,10 +3,12 @@ using Application.Products.DeleteProduct;
 using Application.Products.GetProductById;
 using Application.Products.UpdateProduct;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase

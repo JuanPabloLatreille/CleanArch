@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
@@ -18,7 +19,7 @@ public class UsersController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<ActionResult<LoginResult>> Login([FromBody] LoginCommand command)
@@ -57,6 +58,7 @@ public class UsersController : ControllerBase
         return Ok(result.Value);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}", Name = nameof(DeleteUserAsync))]
     public async Task<IActionResult> DeleteUserAsync(
         Guid id,
