@@ -1,6 +1,8 @@
 using Api.Extensions;
 using Application.DependencyInjection;
 using Infra.Extensions;
+using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace Api;
 
@@ -18,6 +20,30 @@ internal static class Program
             {
                 Title = "CleanArch API",
                 Version = "v1"
+            });
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header usando Bearer. Exemplo: 'Bearer {token}'",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
         });
 
@@ -38,6 +64,7 @@ internal static class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 

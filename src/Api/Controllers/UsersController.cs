@@ -1,8 +1,9 @@
-﻿using Application.Products.DeleteProduct;
+﻿using Application.Authentication.Login;
 using Application.Users.CreateUser;
 using Application.Users.DeleteUser;
 using Application.Users.GetUserById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,6 +17,14 @@ public class UsersController : ControllerBase
     public UsersController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<ActionResult<LoginResult>> Login([FromBody] LoginCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result.Value);
     }
 
     [HttpPost(Name = nameof(CreateUserAsync))]
